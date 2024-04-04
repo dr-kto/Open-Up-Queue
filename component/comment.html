@@ -1,0 +1,21 @@
+<div class="comment flex gap-4">
+    <a href="/profile">
+        <span class="commentator_avatar inline-flex w-8 h-8">
+            <img
+                src="./images/avatar.png"
+                alt="commentator avatar"
+                class="w-full h-full object-cover rounded-full"
+            />
+        </span>
+    </a>
+    <div class="commentator_info_wrapper flex flex-col">
+        <div class="commentator_info flex justify-start items-start gap-2">
+            <a href="/username">
+                <p>{username}</p>
+            </a>
+
+            <p class="commented-at text-gray-600">{date}</p>
+        </div>
+        <p class="comment-text text-gray-700">{comment}</p>
+    </div>
+</div>

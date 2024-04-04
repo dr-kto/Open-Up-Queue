@@ -1,17 +1,14 @@
 let userCredentials = JSON.parse(sessionStorage.getItem('user-credentials'))
 let userInfo = JSON.parse(sessionStorage.getItem('user-info'))
 let comments = document.getElementById('comments')
-let comment = document.getElementById('comment')
+let commentInput = document.getElementById('comment')
 let post = document.getElementById('post')
 let info = document.getElementById('info')
 let signOutBtn = document.getElementById('signout')
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app'
-import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth'
 import { get, child, getDatabase, ref, set } from 'firebase/database'
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -27,13 +24,6 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig)
 const db = getDatabase(app)
-const auth = getAuth(app)
-
-const signOut = () => {
-    sessionStorage.removeItem('user-credentials')
-    sessionStorage.removeItem('user-info')
-    window.location.href = 'login.html'
-}
 
 const Filter = require('bad-words')
 
@@ -47,22 +37,72 @@ const kzWords = require('../dictionary/kz_extra_words.json')
 // кирилица не поддерживается
 customFilter.addWords(...enWords)
 
+async function getCommentHTML(commentElement) {
+    const { comment, date, username } = commentElement
+    try {
+        let x = await fetch('component/comment.html')
+            .then((res) => res.text())
+            .then((data) => {
+                return {
+                    data: JSON.parse(
+                        JSON.stringify(
+                            data
+                                .replace(/{username}/gm, username)
+                                .replace(/{comment}/gm, comment)
+                                .replace(/{date}/gm, date)
+                        )
+                    ),
+                }
+            })
+        return x.data
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+comments.innerHTML = ''
+async function getComments() {
+    comments.innerHTML = ''
+    get(child(ref(db), 'comments')).then(async (s) => {
+        let array = s.val()
+        console.log(array)
+        for (let element in array) {
+            console.log(array[element])
+            comments.innerHTML += await getCommentHTML(array[element])
+        }
+    })
+}
+
 const postComment = () => {
-    get(child(ref(db), 'comments/' + userCredentials.uid)).then((s) => {
-        let array = s.val().comments
-        array.push({
-            comment: customFilter.clean(comment.value),
-            date: new Date().getTime(),
-        })
-        set(ref(db, 'comments/' + userCredentials.uid), {
-            comments: array,
-            username: userCredentials.email,
-        })
-        comment.value = ''
+    getComments()
+    const newComment = {
+        comment: customFilter.clean(commentInput.value),
+        date: new Date().getTime(),
+        username: userCredentials.email.split('@')[0],
+    }
+
+    get(child(ref(db), 'comments')).then((snap) => {
+        if (snap.exists()) {
+            get(child(ref(db), 'comments')).then((s) => {
+                let array = s.val()
+
+                console.log(array)
+
+                array.push(newComment)
+
+                set(ref(db, 'comments'), array)
+
+                commentInput.value = ''
+            })
+        } else {
+            console.log('No such document!')
+            set(ref(db, 'comments'), [newComment])
+        }
     })
 }
 
 const isLogged = () => {
+    getComments()
     if (!sessionStorage.getItem('user-credentials'))
         window.location.href = 'login.html'
     else {
@@ -73,6 +113,26 @@ const isLogged = () => {
     }
 }
 
+const signOut = () => {
+    sessionStorage.removeItem('user-credentials')
+    sessionStorage.removeItem('user-info')
+    window.location.href = 'login.html'
+}
+
 window.addEventListener('load', isLogged)
-// signOutBtn.addEventListener('click', signOut)
+signOutBtn.addEventListener('click', signOut)
 post.addEventListener('click', postComment)
+
+window.requestAnimFrame = (function () {
+    return (
+        window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function (/* function */ callback) {
+            window.setTimeout(callback, 1000 / 60)
+        }
+    )
+})()
+window.requestAnimFrame

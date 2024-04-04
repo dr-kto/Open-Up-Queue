@@ -15,23 +15,33 @@
     </head>
     <body>
         <div
-            class="modal flex w-full h-full fixed left-0 top-0 justify-center items-center overflow-auto overscroll-y-none"
+            class="modal flex w-full h-full md:fixed left-0 top-0 justify-center items-center overflow-auto overscroll-y-none"
             style="background-color: rgba(0, 0, 0, 0.2)"
         >
             <section
                 class="modal_content opacity-100 transform-none relative w-full"
             >
                 <button
+                    id="signout"
                     type="button"
                     class="flex items-center justify-center flex-shrink-0 text-sm absolute top-1 right-3 text-gray-200 text-2xl"
                     style="position: absolute; top: 0.2rem; right: 0.75rem"
                 >
                     x
                 </button>
+                <style>
+                    @media (min-width: 768px) {
+                        .post_wrapper {
+                            max-height: 80vmin;
+                        }
+                    }
+                </style>
                 <div
                     class="modal_body mt-3 md:m-0 p-5 bg-gray-400 border-gray-400 border rounded-md h-auto md:h-full"
                 >
-                    <div class="post_wrapper w-full md:flex md:max-h-max">
+                    <div
+                        class="post_wrapper w-full flex flex-col md:flex-row md:max-h-max"
+                    >
                         <div
                             class="post_media flex rounded-md overflow-hidden justify-center items-center w-full"
                             style="flex: 1.5 1 0%"

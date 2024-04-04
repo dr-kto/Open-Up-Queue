@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Gallery</title>
+        <link
+            href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css"
+            rel="stylesheet"
+        />
+        <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+        <!-- <script src="/dist/bundle.js"></script> -->
+        <!-- <script src="/dist/main.js"></script> -->
+        <!-- <script type="module" src="./index.js"></script> -->
+    <script defer src="js/index.js"></script></head>
+    <body>
+        <div
+            class="modal flex w-full h-full fixed left-0 top-0 justify-center items-center overflow-auto overscroll-y-none"
+            style="background-color: rgba(0, 0, 0, 0.2)"
+        >
+            <section
+                class="modal_content opacity-100 transform-none relative w-full"
+            >
+                <button
+                    type="button"
+                    class="flex items-center justify-center flex-shrink-0 text-sm absolute top-1 right-3 text-gray-200 text-2xl"
+                    style="position: absolute; top: 0.2rem; right: 0.75rem"
+                >
+                    x
+                </button>
+                <div
+                    class="modal_body mt-3 md:m-0 p-5 bg-gray-400 border-gray-400 border rounded-md h-auto md:h-full"
+                >
+                    <div class="post_wrapper w-full md:flex md:max-h-max">
+                        <div
+                            class="post_media flex rounded-md overflow-hidden justify-center items-center w-full"
+                            style="flex: 1.5 1 0%"
+                        >
+                            <img
+                                src="./images/post_image.png"
+                                alt="post image"
+                                class=""
+                            />
+                        </div>
+                        <div
+                            class="post_content flex md:flex-col px-10 flex-col-reverse py-6 overflow-hidden"
+                            style="flex: 1 1 0%"
+                        >
+                            <div
+                                class="post_owner_info_wrapper flex items-center justify-start order-1 md:order-none"
+                            >
+                                <div
+                                    class="post_owner_info flex items-center gap-4"
+                                >
+                                    <span class="post_owner_avatar w-8 h-8">
+                                        <img
+                                            src="./images/avatar.png"
+                                            alt="post owner avatar"
+                                            class="w-full h-full object-cover rounded-full"
+                                        />
+                                    </span>
+                                    <p class="post_owner_username">username</p>
+                                </div>
+                            </div>
+                            <hr
+                                class="bg-gray-500 border opacity-60 my-4 hidden md:block"
+                            />
+                            <div
+                                id="comments"
+                                class="comments flex items-start flex-col gap-2 w-full h-full max-h-80 overflow-y-auto"
+                            >
+                                <div class="comment flex gap-4">
+                                    <a href="/profile">
+                                        <span
+                                            class="commentator_avatar inline-flex w-8 h-8"
+                                        >
+                                            <img
+                                                src="./images/avatar.png"
+                                                alt="commentator avatar"
+                                                class="w-full h-full object-cover rounded-full"
+                                            />
+                                        </span>
+                                    </a>
+                                    <div
+                                        class="commentator_info_wrapper flex flex-col"
+                                    >
+                                        <div
+                                            class="commentator_info flex justify-start items-start gap-2"
+                                        >
+                                            <a href="/username">
+                                                <p>username</p>
+                                            </a>
+
+                                            <p
+                                                class="commented-at text-gray-600"
+                                            >
+                                                21w ago
+                                            </p>
+                                        </div>
+                                        <p class="text-gray-700">Comment</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr
+                                class="bg-gray-500 border opacity-60 my-4 hidden md:block"
+                            />
+                            <div
+                                class="post_footer mt-auto flex items-end gap-2 md:block"
+                            >
+                                <div
+                                    class="post_actions md:flex items-center gap-4 justify-end md:justify-start md:w-full mb-2 mt-4 hidden"
+                                >
+                                    <div
+                                        class="post_like cursor-pointer text-lg"
+                                    >
+                                        <svg
+                                            aria-label="Notifications"
+                                            color="rgb(245, 245, 245)"
+                                            fill="rgb(245, 245, 245)"
+                                            height="24"
+                                            role="img"
+                                            viewBox="0 0 24 24"
+                                            width="24"
+                                        >
+                                            <path
+                                                d="M16.792 3.904A4.989 4.989 0 0 1 21.5 9.122c0 3.072-2.652 4.959-5.197 7.222-2.512 2.243-3.865 3.469-4.303 3.752-.477-.309-2.143-1.823-4.303-3.752C5.141 14.072 2.5 12.167 2.5 9.122a4.989 4.989 0 0 1 4.708-5.218 4.21 4.21 0 0 1 3.675 1.941c.84 1.175.98 1.763 1.12 1.763s.278-.588 1.11-1.766a4.17 4.17 0 0 1 3.679-1.938m0-2a6.04 6.04 0 0 0-4.797 2.127 6.052 6.052 0 0 0-4.787-2.127A6.985 6.985 0 0 0 .5 9.122c0 3.61 2.55 5.827 5.015 7.97.283.246.569.494.853.747l1.027.918a44.998 44.998 0 0 0 3.518 3.018 2 2 0 0 0 2.174 0 45.263 45.263 0 0 0 3.626-3.115l.922-.824c.293-.26.59-.519.885-.774 2.334-2.025 4.98-4.32 4.98-7.94a6.985 6.985 0 0 0-6.708-7.218Z"
+                                            ></path>
+                                        </svg>
+                                    </div>
+                                    <div
+                                        class="post_comment cursor-pointer text-lg"
+                                    >
+                                        <svg
+                                            aria-label="Comment"
+                                            color="rgb(245, 245, 245)"
+                                            fill="rgb(245, 245, 245)"
+                                            height="24"
+                                            role="img"
+                                            viewBox="0 0 24 24"
+                                            width="24"
+                                        >
+                                            <title>Comment</title>
+                                            <path
+                                                d="M20.656 17.008a9.993 9.993 0 1 0-3.59 3.615L22 22Z"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-linejoin="round"
+                                                stroke-width="2"
+                                            ></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <p class="hidden md:block">99 likes</p>
+                                <p class="hidden md:block">
+                                    Posted
+                                    <span class="text-gray-600">21w ago</span>
+                                </p>
+                                <div
+                                    class="post_input relative w-full md:w-auto block mt-6 mb-10 md:my-0"
+                                >
+                                    <input
+                                        id="comment"
+                                        placeholder="Add a comment..."
+                                        class="w-full h-10 border-b border-solid bg-transparent outline-none outline-0"
+                                    />
+                                    <div
+                                        class="post_btn w-10 h-10 flex items-center justify-center"
+                                        style="
+                                            right: 0px;
+                                            top: 0px;
+                                            position: absolute;
+                                            z-index: 2;
+                                        "
+                                    >
+                                        <button
+                                            id="post"
+                                            type="button"
+                                            class="whitespace-nowrap align-middle"
+                                        >
+                                            Post
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </body>
+</html>
